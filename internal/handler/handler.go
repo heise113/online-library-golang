@@ -31,14 +31,27 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-up", h.SignUp)
 		auth.POST("/sign-in", h.SignIn)
 	}
-	// api := router.Group("/api", h.userIdentity)
-	// {
-	// 	api.GET("/book-content/:book_id", h.getContentBook)
-	// }
 
-	api_free := router.Group("/api-free",)
+	api := router.Group("/api", h.userIdentity)
+	{
+		api.POST("/profile-data", h.getProfileData)
+		api.POST("/add-book", h.addBook)
+		api.POST("/delete-book", h.deleteBook)
+	}
+
+	api_free := router.Group("/api-free")
 	{
 		api_free.GET("/book-content/:book_name_id", h.getContentBook)
+		api_free.GET("/all-books", h.getAllBooks)
+		api_free.GET("/about-book/:book_name_id", h.getAboutBook)
+		api_free.GET("/popular-genres", h.getPopularGenres)
+	}
+
+	// router.Static("/assets", "./assets")
+
+	static := router.Group("/static")
+	{
+		static.Static("", "./static")
 	}
 
 	return router

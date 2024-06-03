@@ -1,10 +1,11 @@
 package service
 
 import (
+	"fmt"
+	"io"
+	"online_lib_api"
 	"online_lib_api/internal/storage"
 	"os"
-	"io"
-	"fmt"
 )
 
 type BookService struct {
@@ -34,4 +35,19 @@ func (s *BookService) GetContentBook(book_name_id string) (string, error) {
 		book += string(data[:n])
 	}
 	return book, nil
+}
+
+func (s *BookService) GetAllBooks() ([]online_lib_api.Book, error) {
+	all_books, err := s.storage.GetAllBooks()
+	return all_books, err
+}
+
+func (s *BookService) GetAboutBook(book_name_id string) (online_lib_api.Book, error) {
+	about_book, err := s.storage.GetAboutBook(book_name_id)
+	return about_book, err
+}
+
+func (s *BookService) GetPopularGenres() ([]online_lib_api.Genre, error) {
+	popular_genres, err := s.storage.GetPopularGenres()
+	return popular_genres, err
 }
