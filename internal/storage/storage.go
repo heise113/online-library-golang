@@ -8,9 +8,10 @@ import (
 
 type Book interface {
 	GetContentBook(book_id string) string
-	GetAllBooks() ([]online_lib_api.Book, error)
+	GetBooks(filters map[string]interface{}) ([]online_lib_api.Book, error)
 	GetAboutBook(book_name_id string) (online_lib_api.Book, error)
 	GetPopularGenres() ([]online_lib_api.Genre, error)
+	SearchBooks(param string) ([]online_lib_api.Book, error)
 }
 
 type Authorization interface {

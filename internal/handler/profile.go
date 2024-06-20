@@ -22,7 +22,6 @@ func (h *Handler) addBook(c *gin.Context) {
 	if err := c.BindJSON(&book_id); err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("book_id: ", book_id)
 	user_id, _ := c.Get(userCtx)
 	err := h.services.AddBook(user_id.(int), book_id)
 	if err != nil {
@@ -37,7 +36,6 @@ func (h *Handler) deleteBook(c *gin.Context) {
 	if err := c.BindJSON(&book_id); err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("book_id: ", book_id)
 	user_id, _ := c.Get(userCtx)
 	err := h.services.DeleteBook(user_id.(int), book_id)
 	if err != nil {

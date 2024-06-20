@@ -19,8 +19,14 @@ func (h *Handler) getContentBook(c *gin.Context) {
 	})
 }
 
-func (h *Handler) getAllBooks(c *gin.Context) {
-	all_books, err := h.services.GetAllBooks()
+func (h *Handler) getBooks(c *gin.Context) {
+	var filters map[string]interface{}
+
+	if err := c.BindJSON(&filters); err != nil {
+		fmt.Println(err)
+	}
+
+	all_books, err := h.services.GetBooks(filters)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
@@ -30,7 +36,6 @@ func (h *Handler) getAllBooks(c *gin.Context) {
 
 func (h *Handler) getAboutBook(c *gin.Context) {
 	book_name_id := c.Param("book_name_id")
-	fmt.Println(book_name_id)
 	about_book, err := h.services.GetAboutBook(book_name_id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -46,4 +51,14 @@ func (h *Handler) getPopularGenres(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, popular_genres)
+}
+
+func (h *Handler) searchBooks(c *gin.Context) {
+	param := c.Param("search_params")
+	books, err := h.services.SearchBooks(param)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(http.StatusOK, books)
 }

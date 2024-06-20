@@ -37,8 +37,8 @@ func (s *BookService) GetContentBook(book_name_id string) (string, error) {
 	return book, nil
 }
 
-func (s *BookService) GetAllBooks() ([]online_lib_api.Book, error) {
-	all_books, err := s.storage.GetAllBooks()
+func (s *BookService) GetBooks(filters map[string]interface{}) ([]online_lib_api.Book, error) {
+	all_books, err := s.storage.GetBooks(filters)
 	return all_books, err
 }
 
@@ -50,4 +50,9 @@ func (s *BookService) GetAboutBook(book_name_id string) (online_lib_api.Book, er
 func (s *BookService) GetPopularGenres() ([]online_lib_api.Genre, error) {
 	popular_genres, err := s.storage.GetPopularGenres()
 	return popular_genres, err
+}
+
+func (s *BookService) SearchBooks(param string) ([]online_lib_api.Book, error) {
+	books, err := s.storage.SearchBooks(param)
+	return books, err
 }

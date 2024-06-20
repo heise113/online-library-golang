@@ -37,19 +37,27 @@ func (st *ProfilePostgres) GetProfileData(user_id int) (online_lib_api.Profile, 
 			fmt.Println(err)
 		}
 		profile_data.Mybooks = append(profile_data.Mybooks, book)
-		fmt.Println("my books: ", profile_data.Mybooks)
 	}
 
-	fmt.Println("profile_data: ", profile_data)
 	return profile_data, err
 }
 
 func (st *ProfilePostgres) AddBook(user_id int, book_id int) error {
 	_, err := st.db.Exec("INSERT INTO users_books (user_id, book_id) VALUES ($1, $2)", user_id, book_id)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	_, err = st.db.Exec("UPDATE books SET likes = likes + 1 WHERE id=$1;", book_id)
 	return err
 }
 
 func (st *ProfilePostgres) DeleteBook(user_id int, book_id int) error {
 	_, err := st.db.Exec("DELETE FROM users_books WHERE user_id=$1 AND book_id=$2", user_id, book_id)
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+	_, err = st.db.Exec("UPDATE books SET likes = likes - 1 WHERE id=$1;", book_id)
 	return err
 }

@@ -8,4 +8,5 @@ type Book struct {
 	BookImage string `json:"book_image" db:"book_image"`
 	BookGenres []Genre `json:"book_genres" db:"genre"`
 	BookDescription string `json:"book_description" db:"book_description"`
+	Likes int `json:"likes" db:"likes"`
 }

@@ -42,9 +42,10 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api_free := router.Group("/api-free")
 	{
 		api_free.GET("/book-content/:book_name_id", h.getContentBook)
-		api_free.GET("/all-books", h.getAllBooks)
+		api_free.POST("/get-books", h.getBooks)
 		api_free.GET("/about-book/:book_name_id", h.getAboutBook)
 		api_free.GET("/popular-genres", h.getPopularGenres)
+		api_free.GET("/search-books/:search_params", h.searchBooks)
 	}
 
 	// router.Static("/assets", "./assets")
